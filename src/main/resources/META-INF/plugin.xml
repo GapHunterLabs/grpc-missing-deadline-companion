@@ -1,0 +1,40 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>dev.gaphunter.grpcmissingdeadlinecompanion</id>
+    <name>gRPC Missing Deadline Companion</name>
+    <vendor>Gap Hunter Labs</vendor>
+    <description><![CDATA[
+        <p>Warning on an RPC call made through a generated gRPC blocking
+        stub (<code>XxxGrpc.newBlockingStub(channel)....call(request)</code>)
+        whose stub-construction chain never passes through
+        <code>.withDeadline(...)</code>/<code>.withDeadlineAfter(...)</code>.
+        gRPC's own documentation states plainly that "by default, gRPC
+        does not set a deadline... a client can end up waiting for a
+        response effectively forever" -- a slow or unreachable downstream
+        service hangs the caller's thread indefinitely, propagating
+        failures in cascade.</p>
+        <p>The official gRPC Marketplace plugin gives protobuf/RPC
+        execution support, not a correctness check for deadlines; no
+        Marketplace plugin found dedicated to this.</p>
+        <p>Stated honestly: v0.1 only the synchronous client
+        (<code>newBlockingStub</code>) -- the async/reactive case
+        (<code>newStub</code>/<code>newFutureStub</code>) propagates
+        deadlines via <code>Context</code> instead of a builder chain, a
+        structurally different mechanism deferred to a future
+        version.</p>
+        <p>Free. No license nags, no telemetry, no network calls.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <localInspection language="JAVA"
+            groupName="gRPC Missing Deadline Companion"
+            displayName="gRPC blocking call with no deadline"
+            enabledByDefault="true"
+            level="WARNING"
+            implementationClass="dev.gaphunter.grpcmissingdeadlinecompanion.inspection.MissingDeadlineInspection"/>
+        <notificationGroup id="gRPC Missing Deadline Companion" displayType="BALLOON"/>
+    </extensions>
+</idea-plugin>
