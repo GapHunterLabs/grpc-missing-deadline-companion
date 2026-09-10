@@ -5,6 +5,12 @@ Warning on an RPC call made through a generated gRPC blocking stub
 stub-construction chain never passes through
 `.withDeadline(...)`/`.withDeadlineAfter(...)`.
 
+## Screenshots
+
+![Screenshot 1](docs/screenshots/Screenshot_1.png)
+
+![Screenshot 2](docs/screenshots/Screenshot_2.png)
+
 ## Why it exists
 
 gRPC's own documentation states plainly that "by default, gRPC does
