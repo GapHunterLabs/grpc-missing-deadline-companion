@@ -1,0 +1,9 @@
+<html>
+<body>
+Reports a call through a generated gRPC blocking stub (<code>XxxGrpc.newBlockingStub(channel)...call(request)</code>)
+whose stub chain never goes through <code>.withDeadline(...)</code> or <code>.withDeadlineAfter(...)</code>.
+<!-- tooltip end -->
+<p>gRPC sets no deadline by default, so a slow or unreachable service can keep the calling thread waiting
+indefinitely, and the hang spreads to whatever is waiting on that thread.</p>
+</body>
+</html>
